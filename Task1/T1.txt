@@ -1,0 +1,195 @@
+<?php
+$FName="";
+$err_FName="";
+$Lname="";
+$err_Lname="";
+$Age="";
+$err_Age="";
+$D="";
+$err_D="";
+$PL=[];
+$err_PL="";  
+$Email="";
+$err_Email="";
+$Password="";
+$err_Password="";
+ 
+$hasError=false;
+ 
+function PLExist($h)
+{
+global $PL;
+foreach($PL as $hr)
+{
+if($h==$hr) return true;
+}
+return false;
+}
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+if(empty($_POST["FName"]))
+{
+$hasError=true;
+$err_FName="First Name Required";
+}
+elseif(strlen($_POST["FName"])<=5)
+{
+$hasError=true;
+$err_FName=" First name must be greater than 5 characters";
+}
+else
+{
+$FName=$_POST["FName"];
+}
+if(empty($_POST["Lname"]))
+{
+$hasError=true;
+$err_Lname="Last name Required";
+}
+elseif(strlen($_POST["Lname"])<=5)
+{
+$hasError=true;
+$err_Lname="Last name must be contain at least 5 characters";
+}
+
+else
+{
+$Lname=$_POST["Lname"];
+}
+if(empty($_POST["Age"]))
+{
+$hasError=true;
+$err_Age="Age Required";
+}
+else
+{
+$Age=$_POST["Age"];
+}
+if(!isset($_POST["D"]))
+{
+$hasError=true;
+$err_D="Designation Required";
+}
+else
+{
+$D=$_POST["D"];
+}
+if(empty($_POST["PL"]))
+{
+$hasError=true;
+$err_PL="Preferred Language Required";
+}
+else
+{
+$PL=$_POST["PL"];
+}
+if(empty($_POST["Email"]))
+{
+$hasError=true;
+$err_Email="Email Required";
+}
+elseif(strpos($_POST["Email"],"@")== false && strpos($_POST["Email"],".")== false)
+{
+$hasError = true;
+$err_Email = " Email Invalid Id";
+}
+else
+{
+$Email=$_POST["Email"];
+}
+ 
+if(empty($_POST["Password"]))
+{
+$hasError=true;
+$err_Password="Password Required";
+}
+elseif(strlen($_POST["Password"])<= 8) 
+{
+$hasError = true;
+$err_Password = "Password must have atleast 8 character";
+}
+
+else
+{
+$Password=$_POST["Password"];
+}
+if(!$hasError)
+{
+echo $_POST["FName"]."<br>";
+echo $_POST["Lname"]."<br>";
+echo $_POST["Age"]."<br>";
+echo $_POST["D"]."<br>";
+echo $_POST["PL"]."<br>";
+echo $_POST["Email"]."<br>";
+echo $_POST["Password"]."<br>";
+}
+}
+ 
+
+?>
+ 
+
+<html>
+<body>
+<form action="" method="post">
+<fieldset>
+<table>
+ 
+    <tr>
+<td colspan="2" align="left"><h1><b>Registration Form</b></h1></td>
+</tr>
+<tr>
+<td colspan="2"><hr></td>
+</tr>
+<tr>
+   <td align="left">First Name:</td>
+   <td><input name="FName" value="<?php echo $FName;?>" type="text"> <br><span><?php echo $err_FName;?></span></td>
+</tr>
+<tr>
+   <td align="left">Last Name:</td>
+   <td><input name="Lname" value="<?php echo $Lname;?>" type="text"> <br> <span><?php echo $err_Lname;?></span> </td>
+</tr>
+<tr>
+   <td align="left">Age:</td>
+   <td><input name="Age" value="<?php echo $Age;?>" type="text" >  <br> <span><?php echo $err_Age;?></span> </td>
+   </td>
+<tr>  
+ 
+<tr>
+   <td align="left">Designation:</td>
+   <td><input type="radio" value="Junior Programmer" <?php if ($D == "Junior Programmer") echo "checked"; ?> name="D"> Junior Programmer <input type="radio" value="Senior Programmer" <?php if ($D == "Senior Programmer") echo "checked"; ?> name="D">Senior Programmer  <input type="radio" value="Project Lead" <?php if ($D == "Project Lead") echo "checked"; ?> name="D">Project Lead
+   <br> <span><?php echo $err_D;?></span></td>
+</tr>
+ 
+<tr>
+   <td  align="left">Preferred Language</td>
+   <td> <input type="checkbox" value="Java" <?php if(PLExist("Java")) echo "checked";?> name="PL[]">  Java
+   <input type="checkbox" value="PHP" <?php if(PLExist("PHP")) echo "checked";?> name="PL[]"> PHP
+<input type="checkbox" value="C++" <?php if(PLExist("C++")) echo "checked";?> name="PL[]"> C++ 
+ 
+   <br><span><?php echo $err_PL;?></span></td>
+</tr>
+ 
+<tr>
+   <td align="left">Email:</td>
+   <td><input name="Email" value="<?php echo $Email;?>" type="text"> <br><span><?php echo $err_Email;?></span></td>
+</tr>
+ 
+<tr>
+   <td  align="left">Password:</td>
+   <td><input name="Password" value="<?php echo $Password;?>" type="Password"> <br> <span><?php echo $err_Password;?></span></td>
+</tr>
+ 
+<tr>
+   <td align="left" colspan="2">Please choose a file <input type="button" value="Choose file"> No file choosen </td>
+</tr>
+ 
+<tr>
+<td align="right"><input type="Submit" value="Submit"></td>
+   <td align="left"><input type="button" value="Reset"></td>
+</tr>
+ 
+</table>
+</fieldset>
+</form>
+</body>
+</html>
